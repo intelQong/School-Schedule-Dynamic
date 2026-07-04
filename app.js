@@ -36,7 +36,7 @@ const SCHEDULE_DATA = [
       { period: 1, time: "8:00 - 8:40", className: null },
       { period: 2, time: "8:40 - 9:15", className: "I Bakul" },
       { period: 3, time: "9:15 - 9:50", className: "IV Orchid" },
-      { period: 4, time: "9:50 - 10:25", className: "KG jasmine" },
+      { period: 4, time: "9:50 - 10:25", className: "KG Jasmine" },
       { period: 5, time: "10:40 - 11:15", className: null },
       { period: 6, time: "11:15 - 11:50", className: "Play" },
       { period: 7, time: "11:50 - 12:25", className: null },
