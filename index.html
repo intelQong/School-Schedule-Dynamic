@@ -93,12 +93,32 @@
 
   <script src="app.js"></script>
   <script>
-    // Register Service Worker for PWA
+    // Aggressive Service Worker Registration
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('SW registered:', reg.scope))
+        // Cache buster for the SW file itself
+        const swUrl = '/sw.js?v=' + new Date().getTime();
+        navigator.serviceWorker.register(swUrl)
+          .then(reg => {
+            // Check for updates instantly
+            reg.update();
+            
+            // Auto-reload the page if a new Service Worker takes over
+            let refreshing;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+              if (refreshing) return;
+              refreshing = true;
+              window.location.reload();
+            });
+          })
           .catch(err => console.log('SW registration failed:', err));
+      });
+      
+      // Safety hatch: if you still see old cache, wipe it manually via code
+      caches.keys().then(keys => {
+        keys.forEach(key => {
+          if (key !== 'class-routine-v5') caches.delete(key);
+        });
       });
     }
   </script>
