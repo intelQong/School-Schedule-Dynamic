@@ -166,6 +166,62 @@ function getDaySchedule(dayName) {
   return SCHEDULE_DATA.find(d => d.day === dayName);
 }
 
+// ---- Notifications ----
+const NOTIFY_BEFORE_MINUTES = 5;
+
+function getNotifiedPeriods() {
+  try {
+    const stored = localStorage.getItem('notified-periods');
+    if (stored) {
+      const data = JSON.parse(stored);
+      if (data.date === getTodayName()) return new Set(data.periods);
+    }
+  } catch (e) {}
+  return new Set();
+}
+
+function markNotified(periodIndex) {
+  const periods = [...getNotifiedPeriods(), periodIndex];
+  localStorage.setItem('notified-periods', JSON.stringify({ date: getTodayName(), periods }));
+}
+
+function requestNotificationPermission() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'default') Notification.requestPermission();
+}
+
+function getNextClassInfo() {
+  const todayName = getTodayName();
+  const schedule = getDaySchedule(todayName);
+  if (!schedule) return null;
+  const nowMin = minutesOfDay(new Date().getHours(), new Date().getMinutes());
+
+  for (let i = 0; i < schedule.periods.length; i++) {
+    const p = schedule.periods[i];
+    if (!p.className) continue;
+    const start = minutesOfDay(PERIOD_TIMES[i].start[0], PERIOD_TIMES[i].start[1]);
+    const end = minutesOfDay(PERIOD_TIMES[i].end[0], PERIOD_TIMES[i].end[1]);
+    if (nowMin >= end) continue;
+    if (nowMin >= start && nowMin < end) continue;
+    const diff = start - nowMin;
+    if (diff > 0 && diff <= NOTIFY_BEFORE_MINUTES) return { period: p, index: i };
+  }
+  return null;
+}
+
+function checkUpcomingClass() {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const next = getNextClassInfo();
+  if (!next) return;
+  const notified = getNotifiedPeriods();
+  if (notified.has(next.index)) return;
+  const s = PERIOD_TIMES[next.index].start;
+  const timeStr = `${s[0]}:${String(s[1]).padStart(2, '0')}`;
+  const body = `${next.period.className} at ${timeStr}`;
+  new Notification('📚 Upcoming Class', { body, icon: '/icons/icon-192.png', tag: `class-${getTodayName()}-${next.index}` });
+  markNotified(next.index);
+}
+
 // ---- Render Clock ----
 function updateClock() {
   const clockEl = document.getElementById('clock-time');
@@ -415,6 +471,7 @@ function init() {
   updateClock();
   updateStatus();
   renderAll();
+  requestNotificationPermission();
 
   // Live updates
   setInterval(() => {
@@ -429,6 +486,7 @@ function init() {
       renderStats();
       renderSchedule();
     }
+    checkUpcomingClass();
   }, 30000);
 }
 
