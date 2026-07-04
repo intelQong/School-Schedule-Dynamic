@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class Routine — Dynamic Schedule</title>
+  <meta name="description" content="A beautiful, interactive class routine schedule viewer with real-time period highlighting and smart navigation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#8b5cf6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Class Routine" />
+  <link rel="apple-touch-icon" href="icons/icon-512.png" />
+</head>
+<body>
+  <!-- Animated background blobs -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header" id="app-header">
+      <div class="header-left">
+        <div class="logo-icon" id="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="app-title">Class Routine</h1>
+          <p class="app-subtitle" id="current-date-display"></p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="live-clock" id="live-clock">
+          <span class="clock-dot"></span>
+          <span class="clock-time" id="clock-time"></span>
+        </div>
+        <div class="current-status" id="current-status"></div>
+      </div>
+    </header>
+
+    <!-- Day Navigation Tabs -->
+    <nav class="day-tabs" id="day-tabs" role="tablist" aria-label="Day navigation">
+      <!-- Tabs injected by JS -->
+    </nav>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-card" id="stat-total">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Classes Today</span>
+      </div>
+      <div class="stat-card" id="stat-completed">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Completed</span>
+      </div>
+      <div class="stat-card" id="stat-remaining">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Remaining</span>
+      </div>
+      <div class="stat-card" id="stat-next">
+        <span class="stat-value">—</span>
+        <span class="stat-label">Next Class</span>
+      </div>
+    </div>
+
+    <!-- Schedule Grid -->
+    <section class="schedule-section" id="schedule-section" aria-label="Schedule">
+      <div class="schedule-grid" id="schedule-grid">
+        <!-- Cards injected by JS -->
+      </div>
+    </section>
+
+    <!-- Weekly Overview (mini) -->
+    <section class="weekly-overview" id="weekly-overview" aria-label="Weekly overview">
+      <h2 class="section-title">Weekly Overview</h2>
+      <div class="weekly-grid" id="weekly-grid">
+        <!-- Mini weekly view injected by JS -->
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>
