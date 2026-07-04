@@ -93,32 +93,14 @@
 
   <script src="app.js"></script>
   <script>
-    // Aggressive Service Worker Registration
+    // Service Worker Registration
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        // Cache buster for the SW file itself
-        const swUrl = '/sw.js?v=' + new Date().getTime();
-        navigator.serviceWorker.register(swUrl)
+        navigator.serviceWorker.register('/sw.js')
           .then(reg => {
-            // Check for updates instantly
-            reg.update();
-            
-            // Auto-reload the page if a new Service Worker takes over
-            let refreshing;
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-              if (refreshing) return;
-              refreshing = true;
-              window.location.reload();
-            });
+            console.log('SW registered, scope:', reg.scope);
           })
           .catch(err => console.log('SW registration failed:', err));
-      });
-      
-      // Safety hatch: if you still see old cache, wipe it manually via code
-      caches.keys().then(keys => {
-        keys.forEach(key => {
-          if (key !== 'class-routine-v5') caches.delete(key);
-        });
       });
     }
   </script>
