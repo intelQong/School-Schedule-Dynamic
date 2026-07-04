@@ -2,41 +2,41 @@
    DESIGN TOKENS & CUSTOM PROPERTIES
    ============================================ */
 :root {
-  /* Color Palette — Clean, Minimal Light Theme */
-  --bg-primary: #f8fafc;
-  --bg-secondary: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f8fafc;
-  --bg-glass: rgba(241, 245, 249, 0.7);
-  --bg-glass-hover: rgba(226, 232, 240, 0.7);
+  /* Color Palette — Deep Indigo / Violet */
+  --bg-primary: #0a0a1a;
+  --bg-secondary: #111128;
+  --bg-card: rgba(20, 20, 50, 0.6);
+  --bg-card-hover: rgba(30, 30, 70, 0.8);
+  --bg-glass: rgba(255, 255, 255, 0.04);
+  --bg-glass-hover: rgba(255, 255, 255, 0.08);
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --text-accent: #0f172a;
+  --text-primary: #e8e6f0;
+  --text-secondary: #9a96b8;
+  --text-muted: #5e5a7a;
+  --text-accent: #a78bfa;
 
-  --accent-violet: #0f172a;
-  --accent-violet-glow: rgba(15, 23, 42, 0.1);
-  --accent-indigo: #475569;
-  --accent-pink: #db2777;
-  --accent-teal: #0d9488;
-  --accent-amber: #d97706;
-  --accent-emerald: #059669;
-  --accent-rose: #e11d48;
-  --accent-sky: #0284c7;
+  --accent-violet: #8b5cf6;
+  --accent-violet-glow: rgba(139, 92, 246, 0.35);
+  --accent-indigo: #6366f1;
+  --accent-pink: #ec4899;
+  --accent-teal: #14b8a6;
+  --accent-amber: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+  --accent-sky: #38bdf8;
 
-  --gradient-primary: linear-gradient(135deg, #0f172a, #334155);
-  --gradient-warm: linear-gradient(135deg, #d97706, #db2777);
-  --gradient-cool: linear-gradient(135deg, #0d9488, #475569);
-  --gradient-card: #ffffff;
+  --gradient-primary: linear-gradient(135deg, #8b5cf6, #6366f1);
+  --gradient-warm: linear-gradient(135deg, #f59e0b, #ec4899);
+  --gradient-cool: linear-gradient(135deg, #14b8a6, #6366f1);
+  --gradient-card: linear-gradient(145deg, rgba(139, 92, 246, 0.08), rgba(99, 102, 241, 0.04));
 
-  --border-subtle: #e2e8f0;
-  --border-glow: #cbd5e1;
+  --border-subtle: rgba(139, 92, 246, 0.12);
+  --border-glow: rgba(139, 92, 246, 0.3);
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 4px 14px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.15);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -81,7 +81,56 @@ body {
 /* ============================================
    ANIMATED BACKGROUND BLOBS
    ============================================ */
-/* Removed background blobs */
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4;
+  animation: blob-float 20s ease-in-out infinite;
+}
+
+.blob-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--accent-violet);
+  top: -10%;
+  left: -5%;
+  animation-delay: 0s;
+}
+
+.blob-2 {
+  width: 400px;
+  height: 400px;
+  background: var(--accent-indigo);
+  bottom: -10%;
+  right: -5%;
+  animation-delay: -7s;
+}
+
+.blob-3 {
+  width: 350px;
+  height: 350px;
+  background: var(--accent-pink);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -14s;
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(40px, -30px) scale(1.05); }
+  50% { transform: translate(-20px, 40px) scale(0.95); }
+  75% { transform: translate(30px, 20px) scale(1.02); }
+}
 
 /* ============================================
    APP CONTAINER
@@ -133,7 +182,10 @@ body {
   font-size: 1.5rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  background: linear-gradient(135deg, #e8e6f0, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .app-subtitle {
@@ -251,7 +303,7 @@ body {
 .day-tab.active {
   color: white;
   background: var(--gradient-primary);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 16px var(--accent-violet-glow);
   font-weight: 600;
 }
 
@@ -304,7 +356,10 @@ body {
 .stat-value {
   font-size: 1.6rem;
   font-weight: 700;
-  color: var(--text-primary);
+  background: linear-gradient(135deg, #e8e6f0, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .stat-label {
@@ -382,7 +437,7 @@ body {
 
 .period-card.active-now {
   border-color: var(--accent-emerald);
-  box-shadow: 0 0 0 2px var(--accent-emerald), var(--shadow-sm);
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.2), 0 0 60px rgba(16, 185, 129, 0.08);
   animation: active-pulse 3s ease-in-out infinite;
 }
 
@@ -401,8 +456,8 @@ body {
 }
 
 @keyframes active-pulse {
-  0%, 100% { box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.4), var(--shadow-sm); }
-  50% { box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.2), var(--shadow-md); }
+  0%, 100% { box-shadow: 0 0 24px rgba(16, 185, 129, 0.2), 0 0 60px rgba(16, 185, 129, 0.08); }
+  50% { box-shadow: 0 0 32px rgba(16, 185, 129, 0.3), 0 0 80px rgba(16, 185, 129, 0.12); }
 }
 
 @keyframes card-in {

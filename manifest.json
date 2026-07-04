@@ -4,8 +4,8 @@
   "description": "A dynamic class schedule viewer with real-time period tracking and smart navigation.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#f8fafc",
+  "background_color": "#0a0a1a",
+  "theme_color": "#8b5cf6",
   "orientation": "any",
   "icons": [
     {
