@@ -14,7 +14,7 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
-  self.skipWaiting();
+  // self.skipWaiting();  // removed — was causing infinite reload loops in dev
 });
 
 // Activate — clean old caches
@@ -26,7 +26,7 @@ self.addEventListener('activate', event => {
       )
     )
   );
-  self.clients.claim();
+  // self.clients.claim(); // removed — was causing infinite reload loops in dev
 });
 
 // Fetch — serve from cache, fall back to network
